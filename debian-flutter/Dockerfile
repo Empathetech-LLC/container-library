@@ -20,4 +20,4 @@ RUN useradd -m -s /usr/bin/bash tester
 USER tester
 
 # Pre-download Dart SDK and Flutter dependencies
-# RUN flutter precache
+RUN flutter precache
