@@ -30,6 +30,6 @@ RUN useradd -m -s /usr/bin/bash tester
 USER tester
 
 # Pre-download Dart SDK and Flutter dependencies
-RUN flutter precache \
-  && flutter --disable-telemetry \
-  && flutter config --no-analytics
+RUN flutter --disable-telemetry \
+  && flutter config --no-analytics \
+  && precache
