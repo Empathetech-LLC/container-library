@@ -1,6 +1,6 @@
 ## debian-flutter
 
-An image built from Empathetech's debian-gh base that has two versions.
+An image built from Empathetech's [debian-gh base](../debian-gh/Dockerfile) that has two versions.
 
 ### min
 min includes the Flutter SDK and the Android SDK. Running `Flutter doctor` in min returns
@@ -22,15 +22,9 @@ FROM empathetech/debian-flutter:min
 
 Empathetech will either remove or ignore the latest tag
 
-Speaking of latest, generally all of the sub-pieces will be (latest stable/LTS). At the time of writing that is...
+### Credits
 
-### Versions
+Shoutout to Cirrus Labs
+* specifically: https://github.com/cirruslabs/docker-images-flutter/tree/master/sdk/Dockerfile
 
-* Debian: bookworm
-* Flutter: 3.10.6
-* Android SDK: 9477386 (thanks, Google)
-  * OpenJDK: 17
-  * SDK platform: 33
-  * SDK platform tools: latest
-  * SDK build tools (max only): 33
-* chromium (max only): latest
+Source documentation: https://docs.flutter.dev/get-started/install/linux
