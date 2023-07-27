@@ -18,8 +18,6 @@ RUN curl -o /tmp/flutter.tar.xz -L ${FLUTTER_URL} \
   && tar xf /tmp/flutter.tar.xz -C /opt \
   && rm /tmp/flutter.tar.xz
 
-ENV PATH=$PATH:/opt/flutter/bin
-
 # Install Android SDK
 ENV ANDROID_SDK_VER=9477386
 ENV ANDROID_SDK_ZIP=commandlinetools-linux-${ANDROID_SDK_VER}_latest.zip
@@ -31,11 +29,13 @@ RUN mkdir -p ${ANDROID_SDK_DIR}/cmdline-tools \
   && unzip /tmp/cmdline-tools.zip -d ${ANDROID_SDK_DIR}/cmdline-tools \
   && rm /tmp/cmdline-tools.zip
 
-ENV PATH=$PATH:${ANDROID_SDK_DIR}/cmdline-tools/latest/bin:${ANDROID_SDK_DIR}/platform-tools
-
 # Create a new user and switch to it
 RUN useradd -m -s /usr/bin/bash tester
 USER tester
+WORKDIR /home/tester
+
+# Add Flutter and Android SDK to PATH
+ENV PATH=$PATH:/opt/flutter/bin:${ANDROID_SDK_DIR}/cmdline-tools/latest/bin:${ANDROID_SDK_DIR}/platform-tools
 
 # Set Flutter to use chromium
 ENV CHROME_EXECUTABLE=/usr/bin/chromium
