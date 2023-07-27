@@ -19,11 +19,17 @@ RUN curl -o /tmp/flutter.tar.xz -L ${FLUTTER_URL} \
 ENV PATH=$PATH:/opt/flutter/bin
 
 # Install Android SDK
-ENV CLI_TOOLS_VER=9477386 \
-  CLI_TOOLS_ZIP=commandlinetools-linux-${CLI_TOOLS_VER}_latest.zip \
-  CLI_TOOLS_URL=https://dl.google.com/android/repository/${CLI_TOOLS_ZIP}
+ENV ANDROID_SDK_VER=9477386 \
+  ANDROID_SDK_ZIP=commandlinetools-linux-${ANDROID_SDK_VER}_latest.zip \
+  ANDROID_SDK_URL=https://dl.google.com/android/repository/${ANDROID_SDK_ZIP} \
+  ANDROID_SDK_DIR=/opt/android-sdk
 
-ENV PATH=$PATH:/opt/android-sdk
+RUN mkdir -p ${ANDROID_SDK_DIR}/cmdline-tools \
+  && curl -o /tmp/cmdline-tools.zip -L ${ANDROID_SDK_URL} \
+  && unzip /tmp/cmdline-tools.zip -d ${ANDROID_SDK_DIR}/cmdline-tools \
+  && rm /tmp/cmdline-tools.zip
+
+ENV PATH=$PATH:${ANDROID_SDK_ROOT}/cmdline-tools/latest/bin:${ANDROID_SDK_ROOT}/platform-tools
 
 # Create a new user and switch to it
 RUN useradd -m -s /usr/bin/bash tester
