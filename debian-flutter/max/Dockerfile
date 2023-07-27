@@ -28,8 +28,8 @@ ENV ANDROID_SDK_DIR=/opt/android-sdk
 
 RUN mkdir -p ${ANDROID_SDK_DIR}/cmdline-tools/latest \
   && curl -o /tmp/cmdline-tools.zip -L ${ANDROID_SDK_URL} \
-  && unzip /tmp/cmdline-tools.zip \
-  && mv cmdline-tools/* ${ANDROID_SDK_DIR}/cmdline-tools/latest/ \
+  && unzip /tmp/cmdline-tools.zip -d /tmp/cmdline-dump \
+  && mv /tmp/cmdline-dump/cmdline-tools/* ${ANDROID_SDK_DIR}/cmdline-tools/latest/ \
   && rm -rf /tmp/cmdline*
 
 # Accept Android SDK licenses and install necessary packages
@@ -47,9 +47,6 @@ ENV PATH=$PATH:/opt/flutter/bin:${ANDROID_SDK_DIR}/cmdline-tools/latest/bin:${AN
 # Set Flutter to use chromium
 ENV CHROME_EXECUTABLE=/usr/bin/chromium
 
-# Disable Flutter telemetry,
-# set Flutter to use our custom Android SDK location,
-# and pre-download Dart SDK and Flutter dependencies
+# Disable Flutter telemetry and pre-download final dependencies
 RUN flutter --disable-telemetry \
-  && flutter config --android-sdk $ANDROID_SDK_DIR \
   && flutter precache
