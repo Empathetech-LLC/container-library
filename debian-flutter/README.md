@@ -21,3 +21,16 @@ FROM empathetech/debian-flutter:min
 ```
 
 Empathetech will either remove or ignore the latest tag
+
+Speaking of latest, generally all of the sub-pieces will be (latest stable/LTS). At the time of writing that is...
+
+### Versions
+
+* Debian: bookworm
+* Flutter: 3.10.6
+* Android SDK: 9477386 (thanks, Google)
+  * OpenJDK: 17
+  * SDK platform: 33
+  * SDK platform tools: latest
+  * SDK build tools (max only): 33
+* chromium (max only): latest
