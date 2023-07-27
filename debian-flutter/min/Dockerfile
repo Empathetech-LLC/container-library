@@ -1,4 +1,4 @@
-FROM empathetech/debian-gh
+FROM empathetech/debian-android-sdk
 
 USER root
 
