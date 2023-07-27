@@ -1,5 +1,7 @@
 FROM debian:bookworm-slim
 
+USER root
+
 # Install basic requirements
 RUN apt-get update -yq \
   && apt-get install -yq --no-install-recommends \
@@ -12,4 +14,5 @@ RUN curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | d
   && apt-get update -yq \
   && apt-get install -yq --no-install-recommends \
     gh \
-  && apt-get clean
+  && apt-get clean \
+  && rm -rf /var/lib/apt/lists/*
