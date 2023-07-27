@@ -1,47 +1,20 @@
 FROM empathetech/debian-gh
 
-# Install basic requirements
-# See https://docs.flutter.dev/get-started/install/linux
-# Flutter SDK recs \ Android SDK recs
-RUN apt-get update -yq \
-  && apt-get install -yq --no-install-recommends \
-    file xz-utils \
-    unzip zip openjdk-17-jdk \
-  && apt-get clean \
-  && rm -rf /var/lib/apt/lists/*
+USER root
 
-# Install Flutter SDK
-ENV FLUTTER_VERSION=3.10.6
-ENV FLUTTER_URL=https://storage.googleapis.com/flutter_infra_release/releases/stable/linux/flutter_linux_${FLUTTER_VERSION}-stable.tar.xz
+# Setup environment
+ENV FLUTTER_HOME=${HOME}/sdks/flutter \
+  FLUTTER_VERSION=3.10.6
 
-RUN curl -o /tmp/flutter.tar.xz -L ${FLUTTER_URL} \
-  && tar xf /tmp/flutter.tar.xz -C /opt \
-  && rm /tmp/flutter.tar.xz
+ENV FLUTTER_ROOT=$FLUTTER_HOME \
+  PATH=${PATH}:${FLUTTER_HOME}/bin:${FLUTTER_HOME}/bin/cache/dart-sdk/bin
 
-# Install Android SDK
-ENV ANDROID_SDK_VER=9477386
-ENV ANDROID_SDK_ZIP=commandlinetools-linux-${ANDROID_SDK_VER}_latest.zip
-ENV ANDROID_SDK_URL=https://dl.google.com/android/repository/${ANDROID_SDK_ZIP}
-ENV ANDROID_SDK_DIR=/opt/android-sdk
+# Clone Flutter from source
+RUN git clone --depth 1 --branch ${FLUTTER_VERSION} https://github.com/flutter/flutter.git ${FLUTTER_HOME}
 
-RUN mkdir -p ${ANDROID_SDK_DIR}/cmdline-tools/latest \
-  && curl -o /tmp/cmdline-tools.zip -L ${ANDROID_SDK_URL} \
-  && unzip /tmp/cmdline-tools.zip -d /tmp/cmdline-dump \
-  && mv /tmp/cmdline-dump/cmdline-tools/* ${ANDROID_SDK_DIR}/cmdline-tools/latest/ \
-  && rm -rf /tmp/cmdline*
+# Run final setup and disable telemetry
+RUN yes | flutter doctor --android-licenses \
+  && chown -R root:root ${FLUTTER_HOME}
 
-# Accept Android SDK licenses and install necessary packages
-RUN yes | .${ANDROID_SDK_DIR}/cmdline-tools/latest/bin/sdkmanager --licenses \
-  && .${ANDROID_SDK_DIR}/cmdline-tools/latest/bin/sdkmanager "platform-tools" "platforms;android-33"
-
-# Create a new user and switch to it
-RUN useradd -m -s /usr/bin/bash tester
-USER tester
-WORKDIR /home/tester
-
-# Add Flutter and Android SDK to PATH
-ENV PATH=$PATH:/opt/flutter/bin:${ANDROID_SDK_DIR}/cmdline-tools/latest/bin:${ANDROID_SDK_DIR}/platform-tools
-
-# Disable Flutter telemetry and pre-download final dependencies
 RUN flutter --disable-telemetry \
   && flutter precache
