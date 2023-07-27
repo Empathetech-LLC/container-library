@@ -6,7 +6,9 @@ RUN apt-get update -yq \
   && apt-get install -yq --no-install-recommends \
     file unzip xz-utils zip \
     clang cmake ninja-build pkg-config libgtk-3-dev liblzma-dev \
-  && apt-get clean
+    chromium \
+  && apt-get clean \
+  && rm -rf /var/lib/apt/lists/*
 
 # Install Flutter SDK
 ENV FLUTTER_VERSION=3.10.6
@@ -35,6 +37,12 @@ ENV PATH=$PATH:${ANDROID_SDK_DIR}/cmdline-tools/latest/bin:${ANDROID_SDK_DIR}/pl
 RUN useradd -m -s /usr/bin/bash tester
 USER tester
 
-# Pre-download Dart SDK and Flutter dependencies
+# Set Flutter to use chromium
+ENV CHROME_EXECUTABLE=/usr/bin/chromium
+
+# Disable Flutter telemetry,
+# set Flutter to use our custom Android SDK location,
+# and pre-download Dart SDK and Flutter dependencies
 RUN flutter --disable-telemetry \
+  && flutter config --android-sdk $ANDROID_SDK_DIR \
   && flutter precache
