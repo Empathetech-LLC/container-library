@@ -1,1 +1,3 @@
 FROM docker
+
+ENV DOCKER_BUILDKIT=1
