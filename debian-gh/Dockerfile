@@ -1,6 +1,10 @@
 FROM debian:bookworm-slim
 
+# Verify root user and create a non-root user for later
 USER root
+WORKDIR /
+
+RUN useradd -ms /bin/bash empath
 
 # Install basic requirements
 RUN apt-get update -yq \
@@ -16,3 +20,6 @@ RUN curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | d
     gh \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/*
+
+USER empath
+WORKDIR /home/empath
