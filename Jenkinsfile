@@ -40,5 +40,9 @@ pipeline {
       sh "docker build -t empathetech/${image}:max ${image}/max/."
       sh "docker push empathetech/${image}:max"
     }
+
+    stage('cleanup'){
+      sh "docker logout"
+    }
   }
 }
