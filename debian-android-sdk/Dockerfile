@@ -1,6 +1,7 @@
 FROM empathetech/debian-gh
 
 USER root
+WORKDIR /
 
 # Setup environment
 ENV ANDROID_HOME=/opt/android-sdk-linux \
@@ -30,3 +31,6 @@ RUN mkdir -p ${ANDROID_HOME}/cmdline-tools/latest \
 # Accept licenses and install necessary packages
 RUN yes | sdkmanager --licenses \
   && sdkmanager "platform-tools" "emulator" "platforms;android-$ANDROID_PLATFORM_VERSION" "build-tools;$ANDROID_BUILD_VERSION"
+
+USER empath
+WORKDIR /home/empath
