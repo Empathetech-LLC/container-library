@@ -1,3 +1,4 @@
-FROM docker
+FROM docker:cli
 
 ENV DOCKER_BUILDKIT=1
+ENV DOCKER_CLI_EXPERIMENTAL=enabled
