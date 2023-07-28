@@ -8,8 +8,8 @@ node {
   try {
     if (env.BRANCH_NAME == 'main') {
       stage('login') {
-        withCredentials([string(credentialsId: 'docker-pat', variable: 'DOCKERHUB_TOKEN')]) {
-          sh "docker login -u empathetech -p ${DOCKERHUB_TOKEN}"
+        withCredentials([usernamePassword(credentialsId: 'docker-pat', passwordVariable: 'DOCKER_TOKEN', usernameVariable: 'DOCKER_USERNAME')]) {
+          sh "docker login -u ${DOCKER_USERNAME} -p ${DOCKER_TOKEN}"
         }
       }
     }
