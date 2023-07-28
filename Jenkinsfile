@@ -6,10 +6,6 @@ node {
   env.DOCKER_BUILDKIT = '1'
   
   try {
-    stage('clean system') {
-      sh "docker system prune -f" 
-    }
-
     if (env.BRANCH_NAME == 'main') {
       stage('login') {
         withCredentials([string(credentialsId: 'docker-pat', variable: 'DOCKERHUB_TOKEN')]) {
