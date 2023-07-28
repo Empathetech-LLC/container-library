@@ -1,24 +1,28 @@
-// CPP = Copy/Paste Point. Values a copy/paster might want to double check matches their needs.
+node {
+  // Tell Jenkins to use a Docker agent, built from the local Dockerfile
+  dockerfile true
 
-pipeline {
-  agent { 
-    dockerfile true // Jenkins will spin up an agent with the Dockerfile in the currnt repo/directory
-  }
+  // Tell Jenkins to use the modern buildkit
+  env.DOCKER_BUILDKIT = '1'
+  
+  try {
+    stage('clean system'){
+      sh "docker system prune -f" 
+    }
 
-  environment {
-    DOCKER_BUILDKIT = '1' // Tells Jenkins to use the modern buildkit vs legacy
-  }
-
-  stages {
-    stage('prep'){
-      sh "docker system prune -f"
-
+    stage('login'){
       withCredentials([string(credentialsId: 'docker-pat', variable: 'DOCKERHUB_TOKEN')]) {
         sh "docker login -u empathetech -p ${DOCKERHUB_TOKEN}"
       }
     }
 
-    stage('debian-gh'){
+    stage('buildx build debian-gh'){
+      def image="debian-gh"
+
+      sh "docker buildx build --platform linux/amd64,linux/arm64 -t empathetech/${image} ${image}/."
+    }
+
+    stage('buildx push debian-gh'){
       def image="debian-gh"
 
       sh "docker buildx build --push --platform linux/amd64,linux/arm64 -t empathetech/${image} ${image}/."
@@ -41,8 +45,11 @@ pipeline {
       sh "docker push empathetech/${image}:max"
     }
 
-    stage('cleanup'){
+    stage('logout'){
       sh "docker logout"
     }
+  } catch (Exception e) {
+    currentBuild.result = 'FAILURE'
+    throw e
   }
 }
