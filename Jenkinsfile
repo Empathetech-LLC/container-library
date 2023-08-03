@@ -8,35 +8,32 @@ node('00-docker') {
       }
     }
 
+    def image1="debian-gh"
+    def image2="debian-android-sdk"
+    def image3="debian-flutter"
+    def image4="jenkins-agent-flutter"
+
     stage('build') {
-      def image="debian-gh"
-      sh "docker build -t empathetech/${image} ${image}/."
+      sh "docker build -t empathetech/${image1} ${image1}/."
 
-      def image="debian-android-sdk"
-      sh "docker build -t empathetech/${image} ${image}/."
+      sh "docker build -t empathetech/${image2} ${image2}/."
 
-      def image="debian-flutter"
-      sh "docker build -t empathetech/${image}:min ${image}/min/."
-      sh "docker build -t empathetech/${image}:max ${image}/max/."
+      sh "docker build -t empathetech/${image3}:min ${image3}/min/."
+      sh "docker build -t empathetech/${image3}:max ${image3}/max/."
 
-      def image="jenkins-agent-flutter"
-      sh "docker build -t empathetech/${image} ${image}/."
+      sh "docker build -t empathetech/${image4} ${image4}/."
     }
 
     if (env.BRANCH_NAME == 'main') {
       stage('push') {
-        def image="debian-gh"
-        sh "docker push empathetech/${image}"
+        sh "docker push empathetech/${image1}"
         
-        def image="debian-android-sdk"
-        sh "docker push empathetech/${image}"
+        sh "docker push empathetech/${image2}"
         
-        def image="debian-flutter"
-        sh "docker push empathetech/${image}:min"
-        sh "docker push empathetech/${image}:max"
+        sh "docker push empathetech/${image3}:min"
+        sh "docker push empathetech/${image3}:max"
 
-        def image="jenkins-agent-flutter"
-        sh "docker push empathetech/${image}"
+        sh "docker push empathetech/${image4}"
       }
     }
   } catch (Exception e) {
