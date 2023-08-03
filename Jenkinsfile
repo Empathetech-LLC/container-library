@@ -1,10 +1,4 @@
-node {
-  // Tell Jenkins to use a Docker agent, built from the local Dockerfile
-  dockerfile true
-
-  // Tell Jenkins to use the modern buildkit
-  env.DOCKER_BUILDKIT = '1'
-  
+node('00-docker') {
   try {
     if (env.BRANCH_NAME == 'main') {
       stage('login') {
