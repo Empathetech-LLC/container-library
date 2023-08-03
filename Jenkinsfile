@@ -1,5 +1,9 @@
 node('00-docker') {
   try {
+    stage('checkout') {
+      checkout scm
+    }
+
     if (env.BRANCH_NAME == 'main') {
       stage('login') {
         withCredentials([usernamePassword(credentialsId: 'docker-pat', passwordVariable: 'DOCKER_TOKEN', usernameVariable: 'DOCKER_USERNAME')]) {
