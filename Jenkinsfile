@@ -4,6 +4,8 @@ node('00-docker') {
       checkout scm
     }
 
+    // On main branch, login to Docker so we can push
+    // And prune the system so we don't push out of date layers
     if (env.BRANCH_NAME == 'main') {
       stage('login') {
         withCredentials([usernamePassword(credentialsId: 'docker-pat', passwordVariable: 'DOCKER_TOKEN', usernameVariable: 'DOCKER_USERNAME')]) {
@@ -14,10 +16,12 @@ node('00-docker') {
       }
     }
 
+    // Define image names
     def image1="debian-gh"
     def image2="debian-android-sdk"
     def image3="debian-flutter"
 
+    // Build images
     stage('build') {
       sh "docker build -t empathetech/${image1} ${image1}/."
 
@@ -27,6 +31,7 @@ node('00-docker') {
       sh "docker build -t empathetech/${image3}:max ${image3}/max/."
     }
 
+    // Push images (on main branch only)
     if (env.BRANCH_NAME == 'main') {
       stage('push') {
         sh "docker push empathetech/${image1}"
