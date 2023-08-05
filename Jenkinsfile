@@ -9,6 +9,8 @@ node('00-docker') {
         withCredentials([usernamePassword(credentialsId: 'docker-pat', passwordVariable: 'DOCKER_TOKEN', usernameVariable: 'DOCKER_USERNAME')]) {
           sh "docker login -u ${DOCKER_USERNAME} -p ${DOCKER_TOKEN}"
         }
+
+        sh "docker system prune -f"
       }
     }
 
