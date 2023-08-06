@@ -13,7 +13,13 @@ node('00-docker') {
           def baseBranch = 'main' // CPP (Copy/Paste Point)
 
           script {
-            sh "git fetch origin ${baseBranch}:${baseBranch} ${env.BRANCH_NAME}:${env.BRANCH_NAME}"
+            if (env.CHANGE_ID) {
+              // If "this" a PR
+              sh "git fetch origin ${baseBranch}:${baseBranch} refs/pull/${env.CHANGE_ID}/head:PR-${env.CHANGE_ID}"
+            } else {
+              // If "this" regular branch
+              sh "git fetch origin ${baseBranch}:${baseBranch} ${env.BRANCH_NAME}:${env.BRANCH_NAME}"
+            }
             
             def changedFiles = sh(script: "git diff --name-only ${baseBranch} ${env.BRANCH_NAME}", returnStdout: true).trim().split("\n")
             
