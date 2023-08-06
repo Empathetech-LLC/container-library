@@ -4,22 +4,21 @@ node('00-docker') {
       checkout scm
     }
 
-    // On main branch, login to Docker so we can push
-    // And prune the system so we don't push out of date layers
-    if (env.BRANCH_NAME == 'main') {
-      stage('login') {
-        withCredentials([usernamePassword(credentialsId: 'docker-pat', passwordVariable: 'DOCKER_TOKEN', usernameVariable: 'DOCKER_USERNAME')]) {
-          sh "docker login -u ${DOCKER_USERNAME} -p ${DOCKER_TOKEN}"
-        }
-
-        sh "docker system prune -f"
-      }
-    }
-
     // Define image names
     def image1="debian-gh"
     def image2="debian-android-sdk"
     def image3="debian-flutter"
+
+    // Clean up cache on main so we don't push old layers
+    if (env.BRANCH_NAME == 'main') {
+      stage('cleanup') {
+        sh "docker image rm -f ${image1}"
+        sh "docker image rm -f ${image2}"
+
+        sh "docker image rm -f ${image3}:min"
+        sh "docker image rm -f ${image3}:max"
+      }
+    }
 
     // Build images
     stage('build') {
