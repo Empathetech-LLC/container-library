@@ -4,42 +4,63 @@ node('00-docker') {
       checkout scm
     }
 
-    // On main branch, login to Docker so we can push
-    // And prune the system so we don't push out of date layers
-    if (env.BRANCH_NAME == 'main') {
-      stage('login') {
-        withCredentials([usernamePassword(credentialsId: 'docker-pat', passwordVariable: 'DOCKER_TOKEN', usernameVariable: 'DOCKER_USERNAME')]) {
-          sh "docker login -u ${DOCKER_USERNAME} -p ${DOCKER_TOKEN}"
-        }
+    // Ordered manually
+    def images = ['debian-gh', 'debian-android-sdk', 'debian-flutter-min', 'debian-flutter-max']
 
-        sh "docker system prune -f"
+    if (env.BRANCH_NAME != 'main') {
+      stage('Validate versioning') {
+        withCredentials([gitUsernamePassword(credentialsId: 'git-pat')]) {
+          def baseBranch = 'main' // CPP (Copy/Paste Point)
+
+          script {
+            if (env.CHANGE_ID) {
+              // If "this" a PR
+              sh "git fetch origin ${baseBranch}:${baseBranch} refs/pull/${env.CHANGE_ID}/head:PR-${env.CHANGE_ID}"
+            } else {
+              // If "this" regular branch
+              sh "git fetch origin ${baseBranch}:${baseBranch} ${env.BRANCH_NAME}:${env.BRANCH_NAME}"
+            }
+            
+            def changedFiles = sh(script: "git diff --name-only ${baseBranch} ${env.BRANCH_NAME}", returnStdout: true).trim().split("\n")
+            
+            images.each { image ->
+              def dockerfileChanged = changedFiles.any { it.startsWith("${image}/Dockerfile") }
+              def appVersionChanged = changedFiles.any { it.startsWith("${image}/APP_VERSION") }
+              def changelogChanged = changedFiles.any { it.startsWith("${image}/CHANGELOG.md") }
+              
+              if (dockerfileChanged && (!appVersionChanged || !changelogChanged)) {
+                error("Dockerfile changed in ${image}, but APP_VERSION and/or CHANGELOG.md did not. Please update them.")
+              }
+            }
+          }
+        }
       }
     }
 
-    // Define image names
-    def image1="debian-gh"
-    def image2="debian-android-sdk"
-    def image3="debian-flutter"
+    // Clean up cache on main so we don't push old layers
+    if (env.BRANCH_NAME == 'main') {
+      stage('cleanup') {
+        images.each { image -> 
+          sh "docker image rm -f ${image}"
+        }
+      }
+    }
 
     // Build images
     stage('build') {
-      sh "docker build -t empathetech/${image1} ${image1}/."
-
-      sh "docker build -t empathetech/${image2} ${image2}/."
-
-      sh "docker build -t empathetech/${image3}:min ${image3}/min/."
-      sh "docker build -t empathetech/${image3}:max ${image3}/max/."
+      images.each { image ->
+        def version = readFile("${image}/APP_VERSION").trim()
+        sh "docker build -t empathetech/${image}:${version} ${image}/."
+      }
     }
 
     // Push images (on main branch only)
     if (env.BRANCH_NAME == 'main') {
       stage('push') {
-        sh "docker push empathetech/${image1}"
-        
-        sh "docker push empathetech/${image2}"
-        
-        sh "docker push empathetech/${image3}:min"
-        sh "docker push empathetech/${image3}:max"
+        images.each { image -> 
+          def version = readFile("${image}/APP_VERSION").trim()
+          sh "docker push empathetech/${image}:${version}"
+        }
       }
     }
   } catch (Exception e) {
