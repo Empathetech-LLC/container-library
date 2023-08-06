@@ -4,41 +4,57 @@ node('00-docker') {
       checkout scm
     }
 
-    // Define image names
-    def image1="debian-gh"
-    def image2="debian-android-sdk"
-    def image3="debian-flutter"
+    // Ordered manually
+    def images = ['debian-gh', 'debian-android-sdk', 'debian-flutter-min', 'debian-flutter-max']
+
+    if (env.BRANCH_NAME != 'main') {
+      stage('Validate versioning') {
+        withCredentials([gitUsernamePassword(credentialsId: 'git-pat')]) {
+          def baseBranch = 'main' // CPP (Copy/Paste Point)
+
+          script {
+            sh "git fetch origin ${baseBranch}:${baseBranch} ${env.BRANCH_NAME}:${env.BRANCH_NAME}"
+            
+            def changedFiles = sh(script: "git diff --name-only ${baseBranch} ${env.BRANCH_NAME}", returnStdout: true).trim().split("\n")
+            
+            images.each { image ->
+              def dockerfileChanged = changedFiles.any { it.startsWith("${image}/Dockerfile") }
+              def appVersionChanged = changedFiles.any { it.startsWith("${image}/APP_VERSION") }
+              def changelogChanged = changedFiles.any { it.startsWith("${image}/CHANGELOG.md") }
+              
+              if (dockerfileChanged && (!appVersionChanged || !changelogChanged)) {
+                error("Dockerfile changed in ${image}, but APP_VERSION and/or CHANGELOG.md did not. Please update them.")
+              }
+            }
+          }
+        }
+      }
+    }
 
     // Clean up cache on main so we don't push old layers
     if (env.BRANCH_NAME == 'main') {
       stage('cleanup') {
-        sh "docker image rm -f ${image1}"
-        sh "docker image rm -f ${image2}"
-
-        sh "docker image rm -f ${image3}:min"
-        sh "docker image rm -f ${image3}:max"
+        images.each { image -> 
+          sh "docker image rm -f ${image}"
+        }
       }
     }
 
     // Build images
     stage('build') {
-      sh "docker build -t empathetech/${image1} ${image1}/."
-
-      sh "docker build -t empathetech/${image2} ${image2}/."
-
-      sh "docker build -t empathetech/${image3}:min ${image3}/min/."
-      sh "docker build -t empathetech/${image3}:max ${image3}/max/."
+      images.each { image ->
+        def version = readFile("${image}/APP_VERSION").trim()
+        sh "docker build -t empathetech/${image}:${version} ${image}/."
+      }
     }
 
     // Push images (on main branch only)
     if (env.BRANCH_NAME == 'main') {
       stage('push') {
-        sh "docker push empathetech/${image1}"
-        
-        sh "docker push empathetech/${image2}"
-        
-        sh "docker push empathetech/${image3}:min"
-        sh "docker push empathetech/${image3}:max"
+        images.each { image -> 
+          def version = readFile("${image}/APP_VERSION").trim()
+          sh "docker push empathetech/${image}:${version}"
+        }
       }
     }
   } catch (Exception e) {
