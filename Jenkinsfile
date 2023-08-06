@@ -41,7 +41,7 @@ node('00-docker') {
     if (env.BRANCH_NAME == 'main') {
       stage('cleanup') {
         images.each { image -> 
-          sh "docker image rm -f ${image}"
+          sh "docker image rm -f empathetech/${image}"
         }
       }
     }
