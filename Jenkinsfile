@@ -21,17 +21,20 @@ node('00-docker') {
               sh "git fetch origin ${baseBranch}:${baseBranch} ${env.BRANCH_NAME}:${env.BRANCH_NAME}"
             }
             
-            def changedFiles = sh(script: "git diff --name-only ${baseBranch} ${env.BRANCH_NAME}", returnStdout: true).trim().split("\n")
+            def updatedFiles = sh(script: "git diff --name-only ${baseBranch} ${env.BRANCH_NAME}", returnStdout: true).trim().split("\n")
+            println "Updated files:\n$updatedFiles"
             
             images.each { image ->
-              def dockerfileChanged = changedFiles.any { it.startsWith("${image}/Dockerfile") }
-              def appVersionChanged = changedFiles.any { it.startsWith("${image}/APP_VERSION") }
-              def changelogChanged = changedFiles.any { it.startsWith("${image}/CHANGELOG.md") }
+              def dockerfileUpdated = updatedFiles.any { it.startsWith("${image}/Dockerfile") }
+              def appVersionUpdated = updatedFiles.any { it.startsWith("${image}/APP_VERSION") }
+              def changelogUpdated = updatedFiles.any { it.startsWith("${image}/CHANGELOG.md") }
               
-              if (dockerfileChanged && (!appVersionChanged || !changelogChanged)) {
-                error("Dockerfile changed in ${image}, but APP_VERSION and/or CHANGELOG.md did not. Please update them.")
+              if (dockerfileUpdated && (!appVersionUpdated || !changelogUpdated)) {
+                error("Dockerfile updated in ${image}, but APP_VERSION and/or CHANGELOG.md did not. Please update them.")
               }
             }
+
+            println "All versioning trios are were updated together!"
           }
         }
       }
