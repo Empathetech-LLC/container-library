@@ -36,5 +36,6 @@ USER empath
 WORKDIR /home/empath
 
 # Disable telemtry and pre-download binaries
-RUN flutter --disable-telemetry \
+RUN git config --global --add safe.directory /sdks/flutter \
+  && flutter --disable-telemetry \
   && flutter precache
