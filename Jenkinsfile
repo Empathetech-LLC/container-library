@@ -4,14 +4,14 @@ node('00-docker') {
       checkout scm
     }
 
+    def baseBranch = 'main' // CPP (Copy/Paste Point)
+
     // Ordered manually
     def images = ['debian-gh', 'debian-android-sdk', 'debian-flutter-min', 'debian-flutter-max']
 
-    if (env.BRANCH_NAME != 'main') {
+    if (env.BRANCH_NAME != baseBranch) {
       stage('Validate versioning') {
         withCredentials([gitUsernamePassword(credentialsId: 'git-pat')]) {
-          def baseBranch = 'main' // CPP (Copy/Paste Point)
-
           script {
             if (env.CHANGE_ID) {
               // If "this" a PR
@@ -41,7 +41,7 @@ node('00-docker') {
     }
 
     // Clean up cache on main so we don't push old layers
-    if (env.BRANCH_NAME == 'main') {
+    if (env.BRANCH_NAME == baseBranch) {
       stage('cleanup') {
         images.each { image -> 
           sh "docker image rm -f empathetech/${image}"
@@ -58,7 +58,7 @@ node('00-docker') {
     }
 
     // Push images (on main branch only)
-    if (env.BRANCH_NAME == 'main') {
+    if (env.BRANCH_NAME == baseBranch) {
       stage('push') {
         images.each { image -> 
           def version = readFile("${image}/APP_VERSION").trim()
