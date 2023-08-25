@@ -45,6 +45,7 @@ node('00-docker') {
       stage('cleanup') {
         images.each { image -> 
           sh "docker image rm -f empathetech/${image}"
+          sh "docker system prune -f"
         }
       }
     }
