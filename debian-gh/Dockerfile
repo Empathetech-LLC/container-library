@@ -1,4 +1,4 @@
-FROM debian:bookworm-slim
+FROM debian:stable-slim
 
 # Verify root user and create a non-root user for later
 USER root
