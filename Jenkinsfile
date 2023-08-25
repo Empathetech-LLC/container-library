@@ -4,14 +4,14 @@ node('00-docker') {
       checkout scm
     }
 
-    // Ordered manually
-    def images = ['debian-gh', 'debian-android-sdk', 'debian-flutter-min', 'debian-flutter-max']
+    def baseBranch = 'main' // CPP (Copy/Paste Point)
 
-    if (env.BRANCH_NAME != 'main') {
+    // Ordered manually
+    def images = ['debian-gh', 'debian-android-sdk', 'debian-flutter-min', 'debian-flutter-max', 'jenkins-agent-docker', 'jenkins-agent-flutter']
+
+    if (env.BRANCH_NAME != baseBranch) {
       stage('Validate versioning') {
         withCredentials([gitUsernamePassword(credentialsId: 'git-pat')]) {
-          def baseBranch = 'main' // CPP (Copy/Paste Point)
-
           script {
             if (env.CHANGE_ID) {
               // If "this" a PR
@@ -21,27 +21,30 @@ node('00-docker') {
               sh "git fetch origin ${baseBranch}:${baseBranch} ${env.BRANCH_NAME}:${env.BRANCH_NAME}"
             }
             
-            def changedFiles = sh(script: "git diff --name-only ${baseBranch} ${env.BRANCH_NAME}", returnStdout: true).trim().split("\n")
+            def updatedFiles = sh(script: "git diff --name-only ${baseBranch} ${env.BRANCH_NAME}", returnStdout: true).trim().split("\n")
+            println "Updated files:\n$updatedFiles"
             
             images.each { image ->
-              def dockerfileChanged = changedFiles.any { it.startsWith("${image}/Dockerfile") }
-              def appVersionChanged = changedFiles.any { it.startsWith("${image}/APP_VERSION") }
-              def changelogChanged = changedFiles.any { it.startsWith("${image}/CHANGELOG.md") }
+              def dockerfileUpdated = updatedFiles.any { it.startsWith("${image}/Dockerfile") }
+              def appVersionUpdated = updatedFiles.any { it.startsWith("${image}/APP_VERSION") }
+              def changelogUpdated = updatedFiles.any { it.startsWith("${image}/CHANGELOG.md") }
               
-              if (dockerfileChanged && (!appVersionChanged || !changelogChanged)) {
-                error("Dockerfile changed in ${image}, but APP_VERSION and/or CHANGELOG.md did not. Please update them.")
+              if (dockerfileUpdated && (!appVersionUpdated || !changelogUpdated)) {
+                error("Dockerfile updated in ${image}, but APP_VERSION and/or CHANGELOG.md did not. Please update them.")
               }
             }
+
+            println "All versioning trios are were updated together!"
           }
         }
       }
     }
 
     // Clean up cache on main so we don't push old layers
-    if (env.BRANCH_NAME == 'main') {
+    if (env.BRANCH_NAME == baseBranch) {
       stage('cleanup') {
         images.each { image -> 
-          sh "docker image rm -f ${image}"
+          sh "docker image rm -f empathetech/${image}"
         }
       }
     }
@@ -55,7 +58,7 @@ node('00-docker') {
     }
 
     // Push images (on main branch only)
-    if (env.BRANCH_NAME == 'main') {
+    if (env.BRANCH_NAME == baseBranch) {
       stage('push') {
         images.each { image -> 
           def version = readFile("${image}/APP_VERSION").trim()

@@ -1,2 +1,3 @@
 # container-library
-Public library of Empathetech's Docker containers.
+
+The public section of Empathetech's Docker container library.

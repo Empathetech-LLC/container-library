@@ -1,20 +1,20 @@
 ## debian-flutter-max
 
-An image built from Empathetech's [debian-gh base](../debian-gh/Dockerfile) that includes the Flutter SDK, the Android SDK, and all required packages for linux and web development.
+An image built from Empathetech's [debian-android-sdk](../debian-android-sdk/Dockerfile) base that includes the Flutter SDK and all additional packages required for linux and web development.
 
-Running `Flutter doctor -v` in max returns
+Running `flutter doctor -v` in max returns
 
 ```bash
-[!] Flutter (Channel unknown, 3.10.6, on Debian GNU/Linux 12 (bookworm) 6.2.0-26-generic, locale en_US)
-    ! Flutter version 3.10.6 on channel unknown at /sdks/flutter
+[!] Flutter (Channel [user-branch], 3.13.1, on Debian GNU/Linux 12 (bookworm) 6.2.0-26-generic, locale en_US)
+    ! Flutter version 3.13.1 on channel [user-branch] at /sdks/flutter
       Currently on an unknown channel. Run `flutter channel` to switch to an official channel.
       If that doesn't fix the issue, reinstall Flutter by following instructions at https://flutter.dev/docs/get-started/install.
-    ! Unknown upstream repository.
-      Reinstall Flutter by following instructions at https://flutter.dev/docs/get-started/install.
-    • Framework revision f468f3366c (4 weeks ago), 2023-07-12 15:19:05 -0700
-    • Engine revision cdbeda788a
-    • Dart version 3.0.6
-    • DevTools version 2.23.1
+    ! Upstream repository unknown source is not a standard remote.
+      Set environment variable "FLUTTER_GIT_URL" to unknown source to dismiss this error.
+    • Framework revision e1e47221e8 (3 days ago), 2023-08-22 21:43:18 -0700
+    • Engine revision b20183e040
+    • Dart version 3.1.0
+    • DevTools version 2.25.0
     • If those were intentional, you can disregard the above warnings; however it is recommended to use "git" directly to perform update checks and upgrades.
 
 [✓] Android toolchain - develop for Android devices (Android SDK version 33.0.2)
@@ -41,16 +41,17 @@ Running `Flutter doctor -v` in max returns
 
 [✓] Connected device (2 available)
     • Linux (desktop) • linux  • linux-x64      • Debian GNU/Linux 12 (bookworm) 6.2.0-26-generic
-    • Chrome (web)    • chrome • web-javascript • Chromium 115.0.5790.98 built on Debian 12.0, running on Debian 12.0
+    • Chrome (web)    • chrome • web-javascript • Chromium 116.0.5845.110 built on Debian 12.1, running on Debian 12.1
 
 [✓] Network resources
     • All expected network resources are available.
+
+! Doctor found issues in 2 categories.
 ```
-* Doctor readout last updated: August 6th 2023, Version 1.0.1
+* Doctor readout last updated: August 25th 2023, Version 1.0.2
 
 ### Credits
 
-Shoutout to Cirrus Labs
-* specifically: https://github.com/cirruslabs/docker-images-flutter/tree/master/sdk/Dockerfile
+[Source documentation](https://docs.flutter.dev/get-started/install/linux)
 
-Source documentation: https://docs.flutter.dev/get-started/install/linux
+Shoutout to [Cirrus Labs](https://github.com/cirruslabs/) for [inspiration](https://github.com/cirruslabs/docker-images-flutter/tree/master/sdk/Dockerfile)
