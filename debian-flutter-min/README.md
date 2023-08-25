@@ -1,6 +1,6 @@
 ## debian-flutter-min
 
-An image built from Empathetech's [debian-gh base](../debian-gh/Dockerfile) that includes the Flutter SDK and the Android SDK.
+An image built from Empathetech's [debian-android-sdk](../debian-android-sdk/Dockerfile) base that includes the Flutter SDK.
 
 Running `Flutter doctor -v` in min returns
 
@@ -53,7 +53,6 @@ Running `Flutter doctor -v` in min returns
 
 ### Credits
 
-Shoutout to Cirrus Labs
-* specifically: https://github.com/cirruslabs/docker-images-flutter/tree/master/sdk/Dockerfile
+[Source documentation](https://docs.flutter.dev/get-started/install/linux)
 
-Source documentation: https://docs.flutter.dev/get-started/install/linux
+Shoutout to [Cirrus Labs](https://github.com/cirruslabs/) for [inspiration](https://github.com/cirruslabs/docker-images-flutter/tree/master/sdk/Dockerfile)

@@ -1,6 +1,6 @@
 ## debian-flutter-max
 
-An image built from Empathetech's [debian-gh base](../debian-gh/Dockerfile) that includes the Flutter SDK, the Android SDK, and all required packages for linux and web development.
+An image built from Empathetech's [debian-android-sdk](../debian-android-sdk/Dockerfile) base that includes the Flutter SDK and all additional packages required for linux and web development.
 
 Running `Flutter doctor -v` in max returns
 
@@ -50,7 +50,6 @@ Running `Flutter doctor -v` in max returns
 
 ### Credits
 
-Shoutout to Cirrus Labs
-* specifically: https://github.com/cirruslabs/docker-images-flutter/tree/master/sdk/Dockerfile
+[Source documentation](https://docs.flutter.dev/get-started/install/linux)
 
-Source documentation: https://docs.flutter.dev/get-started/install/linux
+Shoutout to [Cirrus Labs](https://github.com/cirruslabs/) for [inspiration](https://github.com/cirruslabs/docker-images-flutter/tree/master/sdk/Dockerfile)

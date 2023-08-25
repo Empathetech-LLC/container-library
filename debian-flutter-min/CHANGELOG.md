@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.0.2] - 2023-08-25
+### Updated
+- Flutter version: 3.10.6 -> 3.13.1
+
 ## [1.0.1] - 2023-08-06
 ### Added
 - Everything
