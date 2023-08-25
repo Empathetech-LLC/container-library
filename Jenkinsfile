@@ -7,7 +7,7 @@ node('00-docker') {
     def baseBranch = 'main' // CPP (Copy/Paste Point)
 
     // Ordered manually
-    def images = ['debian-gh', 'debian-android-sdk', 'debian-flutter-min', 'debian-flutter-max']
+    def images = ['debian-gh', 'debian-android-sdk', 'debian-flutter-min', 'debian-flutter-max', 'jenkins-agent-docker', 'jenkins-agent-flutter']
 
     if (env.BRANCH_NAME != baseBranch) {
       stage('Validate versioning') {
