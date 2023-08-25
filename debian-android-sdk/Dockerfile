@@ -4,12 +4,16 @@ USER root
 WORKDIR /
 
 # Setup environment
+#
+# CMD tools versioning: https://developer.android.com/studio#command-line-tools-only
+# Platforms versioning: https://developer.android.com/tools/releases/platforms
+# Builds versioning: https://developer.android.com/tools/releases/build-tools
 ENV ANDROID_HOME=/opt/android-sdk-linux \
-  ANDROID_SDK_VERSION=9477386 \
+  CMD_TOOLS_VERSION=10406996 \
   ANDROID_PLATFORM_VERSION=33 \
   ANDROID_BUILD_VERSION=33.0.2
 
-ENV ANDROID_SDK_URL=https://dl.google.com/android/repository/commandlinetools-linux-${ANDROID_SDK_VERSION}_latest.zip
+ENV ANDROID_SDK_URL=https://dl.google.com/android/repository/commandlinetools-linux-${CMD_TOOLS_VERSION}_latest.zip
 
 ENV ANDROID_SDK_ROOT=$ANDROID_HOME \
   PATH=${PATH}:${ANDROID_HOME}/cmdline-tools/latest/bin:${ANDROID_HOME}/platform-tools:${ANDROID_HOME}/emulator
