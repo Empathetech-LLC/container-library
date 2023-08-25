@@ -45,6 +45,13 @@ node('00-docker') {
       stage('cleanup') {
         images.each { image -> 
           sh "docker image rm -f empathetech/${image}"
+          sh "docker system prune -f"
+        }
+      }
+
+      stage('login') {
+        withCredentials([usernamePassword(credentialsId: 'docker-pat', passwordVariable: 'DOCKER_TOKEN', usernameVariable: 'DOCKER_USERNAME')]) {
+          sh "docker login -u ${DOCKER_USERNAME} -p ${DOCKER_TOKEN}"
         }
       }
     }
