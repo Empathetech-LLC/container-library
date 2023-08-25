@@ -48,6 +48,12 @@ node('00-docker') {
           sh "docker system prune -f"
         }
       }
+
+      stage('login') {
+        withCredentials([usernamePassword(credentialsId: 'docker-pat', passwordVariable: 'DOCKER_TOKEN', usernameVariable: 'DOCKER_USERNAME')]) {
+          sh "docker login -u ${DOCKER_USERNAME} -p ${DOCKER_TOKEN}"
+        }
+      }
     }
 
     // Build images
