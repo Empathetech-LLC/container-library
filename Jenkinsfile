@@ -60,7 +60,7 @@ node('00-docker') {
     stage('build') {
       images.each { image ->
         def version = readFile("${image}/APP_VERSION").trim()
-        sh "docker build -t empathetech/${image}:${version} ${image}/."
+        sh "docker build -t empathetech/${image}:${version} -t empathetech/${image}:latest ${image}/."
       }
     }
 
