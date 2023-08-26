@@ -41,7 +41,7 @@ node('00-docker') {
     }
 
     // Clean up cache on main so we don't push old layers
-    if (env.BRANCH_NAME == baseBranch) {
+    //if (env.BRANCH_NAME == baseBranch) {
       stage('cleanup') {
         images.each { image -> 
           sh "docker image rm -f empathetech/${image}"
@@ -54,18 +54,18 @@ node('00-docker') {
           sh "docker login -u ${DOCKER_USERNAME} -p ${DOCKER_TOKEN}"
         }
       }
-    }
+    //}
 
     // Build images
     stage('build') {
       images.each { image ->
         def version = readFile("${image}/APP_VERSION").trim()
-        sh "docker build -t empathetech/${image}:${version} ${image}/."
+        sh "docker build -t empathetech/${image}:${version} -t empathetech/${image}:latest ${image}/."
       }
     }
 
     // Push images (on main branch only)
-    if (env.BRANCH_NAME == baseBranch) {
+    //if (env.BRANCH_NAME == baseBranch) {
       stage('push') {
         images.each { image -> 
           def version = readFile("${image}/APP_VERSION").trim()
@@ -73,7 +73,7 @@ node('00-docker') {
           sh "docker push empathetech/${image}:latest"
         }
       }
-    }
+    //}
   } catch (Exception e) {
     currentBuild.result = 'FAILURE'
     throw e
