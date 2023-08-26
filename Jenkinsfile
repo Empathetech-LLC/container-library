@@ -45,8 +45,8 @@ node('00-docker') {
       stage('cleanup') {
         images.each { image -> 
           sh "docker image rm -f empathetech/${image}"
-          sh "docker system prune -f"
         }
+        sh "docker system prune -f"
       }
 
       stage('login') {
@@ -70,6 +70,7 @@ node('00-docker') {
         images.each { image -> 
           def version = readFile("${image}/APP_VERSION").trim()
           sh "docker push empathetech/${image}:${version}"
+          sh "docker push empathetech/${image}:latest"
         }
       }
     }
