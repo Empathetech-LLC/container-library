@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [3.13.5] - 2023-09-27
+### Updated
+- Image version now matches Flutter version
+- Updated Flutter to 3.13.5
+
 ## [1.0.2] - 2023-08-25
 ### Updated
 - Flutter version: 3.10.6 -> 3.13.1
