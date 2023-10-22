@@ -48,7 +48,7 @@ RUN yes | sdkmanager --licenses \
 
 # Setup Flutter environment
 ENV FLUTTER_HOME=${HOME}/sdks/flutter \
-  FLUTTER_VERSION=3.13.5
+  FLUTTER_VERSION=3.13.8
 
 ENV FLUTTER_ROOT=$FLUTTER_HOME \
   CHROME_EXECUTABLE=/usr/bin/chromium \
