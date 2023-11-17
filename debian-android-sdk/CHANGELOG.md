@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## [34.0.0] - 2023-11-17
+### Updated
+- Version number to track Android SDK Build Tools version
+
 ## [1.0.2] - 2023-08-25
 ### Updated
 - SDK version: 9477386 -> 10406996

@@ -7,7 +7,7 @@ WORKDIR /
 #
 # SDK versioning: https://github.com/flutter/flutter/releases
 ENV FLUTTER_HOME=${HOME}/sdks/flutter \
-  FLUTTER_VERSION=3.13.9
+  FLUTTER_VERSION=3.16.0
 
 ENV FLUTTER_ROOT=$FLUTTER_HOME \
   PATH=${PATH}:${FLUTTER_HOME}/bin:${FLUTTER_HOME}/bin/cache/dart-sdk/bin
@@ -30,5 +30,5 @@ WORKDIR /home/empath
 
 # Disable telemtry and pre-download binaries
 RUN git config --global --add safe.directory /sdks/flutter \
-  && flutter --disable-telemetry \
+  && flutter --disable-analytics \
   && flutter precache
