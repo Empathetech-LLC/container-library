@@ -10,8 +10,8 @@ WORKDIR /
 # Builds versioning: https://developer.android.com/tools/releases/build-tools
 ENV ANDROID_HOME=/opt/android-sdk-linux \
   CMD_TOOLS_VERSION=10406996 \
-  ANDROID_PLATFORM_VERSION=33 \
-  ANDROID_BUILD_VERSION=33.0.2
+  ANDROID_PLATFORM_VERSION=34 \
+  ANDROID_BUILD_VERSION=34.0.0
 
 ENV ANDROID_SDK_URL=https://dl.google.com/android/repository/commandlinetools-linux-${CMD_TOOLS_VERSION}_latest.zip
 
@@ -48,7 +48,7 @@ RUN yes | sdkmanager --licenses \
 
 # Setup Flutter environment
 ENV FLUTTER_HOME=${HOME}/sdks/flutter \
-  FLUTTER_VERSION=3.13.9
+  FLUTTER_VERSION=3.16.0
 
 ENV FLUTTER_ROOT=$FLUTTER_HOME \
   CHROME_EXECUTABLE=/usr/bin/chromium \

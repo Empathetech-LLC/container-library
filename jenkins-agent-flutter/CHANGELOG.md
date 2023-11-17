@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [3.16.0] - 2023-11-17
+### Updated
+- Updated Android to 34
+- Updated Flutter to 3.16.0
+
 ## [3.13.9] - 2023-10-25
 ### Updated
 - Updated Flutter to 3.13.9

@@ -10,8 +10,8 @@ WORKDIR /
 # Builds versioning: https://developer.android.com/tools/releases/build-tools
 ENV ANDROID_HOME=/opt/android-sdk-linux \
   CMD_TOOLS_VERSION=10406996 \
-  ANDROID_PLATFORM_VERSION=33 \
-  ANDROID_BUILD_VERSION=33.0.2
+  ANDROID_PLATFORM_VERSION=34 \
+  ANDROID_BUILD_VERSION=34.0.0
 
 ENV ANDROID_SDK_URL=https://dl.google.com/android/repository/commandlinetools-linux-${CMD_TOOLS_VERSION}_latest.zip
 
