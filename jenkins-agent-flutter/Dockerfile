@@ -76,5 +76,5 @@ RUN mkdir tmp
 
 # Disable telemtry and pre-download binaries
 RUN git config --global --add safe.directory /sdks/flutter \
-  && flutter --disable-telemetry \
+  && flutter --disable-analytics \
   && flutter precache
