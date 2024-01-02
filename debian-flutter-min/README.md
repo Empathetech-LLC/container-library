@@ -61,4 +61,4 @@ in min returns...
 
 [Source documentation](https://docs.flutter.dev/get-started/install/linux)
 
-Shoutout to [Cirrus Labs](https://github.com/cirruslabs/) for [inspiration](https://github.com/cirruslabs/docker-images-flutter/tree/master/sdk/Dockerfile)
+Shout-out to [Cirrus Labs](https://github.com/cirruslabs/) for [inspiration](https://github.com/cirruslabs/docker-images-flutter/tree/master/sdk/Dockerfile)

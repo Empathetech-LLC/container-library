@@ -14,4 +14,4 @@ layer at the start of the [Dockerfile](Dockerfile) to see the current SDK and bu
 
 ### Credits
 
-Shoutout to [Cirrus Labs](https://github.com/cirruslabs/) for [inspiration](https://github.com/cirruslabs/docker-images-android/tree/master/sdk/tools/Dockerfile)
+Shout-out to [Cirrus Labs](https://github.com/cirruslabs/) for [inspiration](https://github.com/cirruslabs/docker-images-android/tree/master/sdk/tools/Dockerfile)
