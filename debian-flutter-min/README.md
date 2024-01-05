@@ -1,6 +1,6 @@
 ## debian-flutter-min
 
-An image built from Empathetech's [debian-android-sdk](../debian-android-sdk/Dockerfile) base that includes the Flutter SDK.
+Is built from the Empathetech [debian-android-sdk](../debian-android-sdk/Dockerfile) base and includes the Flutter SDK.
 
 Running
 ```bash

@@ -1,6 +1,6 @@
 # container-library
 
-The public section of Empathetech's Docker container library.
+The public section of the Empathetech (Docker) Container Library.
 
 # Contributing
 

@@ -1,6 +1,6 @@
 ## debian-android-sdk
 
-An image built from Empathetech's [debian-gh](../debian-gh/Dockerfile) base that has the Android SDK installed. Nothing more, nothing less.
+Is built from the Empathetech [debian-gh](../debian-gh/Dockerfile) base and has the Android SDK installed. Nothing more, nothing less.
 
 ### Versioning
 
