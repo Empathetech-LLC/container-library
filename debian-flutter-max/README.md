@@ -1,6 +1,6 @@
 ## debian-flutter-max
 
-An image built from Empathetech's [debian-android-sdk](../debian-android-sdk/Dockerfile) base that includes the Flutter SDK and all additional packages required for linux and web development.
+Is built from the Empathetech [debian-android-sdk](../debian-android-sdk/Dockerfile) base and includes the Flutter SDK and all additional packages required for linux and web development.
 
 Running `flutter doctor -v` in max returns
 
