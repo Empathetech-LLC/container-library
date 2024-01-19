@@ -1,3 +1,5 @@
+@Library('empathetechScripts') _
+
 node('00-docker') {
   try {
     stage('checkout') {
@@ -12,30 +14,7 @@ node('00-docker') {
     if (env.BRANCH_NAME != baseBranch) {
       stage('Validate versioning') {
         withCredentials([gitUsernamePassword(credentialsId: 'git-pat')]) {
-          script {
-            if (env.CHANGE_ID) {
-              // If "this" a PR
-              sh "git fetch origin ${baseBranch}:${baseBranch} refs/pull/${env.CHANGE_ID}/head:PR-${env.CHANGE_ID}"
-            } else {
-              // If "this" regular branch
-              sh "git fetch origin ${baseBranch}:${baseBranch} ${env.BRANCH_NAME}:${env.BRANCH_NAME}"
-            }
-            
-            def updatedFiles = sh(script: "git diff --name-only ${baseBranch} ${env.BRANCH_NAME}", returnStdout: true).trim().split("\n")
-            println "Updated files:\n$updatedFiles"
-            
-            images.each { image ->
-              def dockerfileUpdated = updatedFiles.any { it.startsWith("${image}/Dockerfile") }
-              def appVersionUpdated = updatedFiles.any { it.startsWith("${image}/APP_VERSION") }
-              def changelogUpdated = updatedFiles.any { it.startsWith("${image}/CHANGELOG.md") }
-              
-              if (dockerfileUpdated && (!appVersionUpdated || !changelogUpdated)) {
-                error("Dockerfile updated in ${image}, but APP_VERSION and/or CHANGELOG.md did not. Please update them.")
-              }
-            }
-
-            println "All versioning trios are were updated together!"
-          }
+          validateDockerfileVersions(env.CHANGE_ID, baseBranch, env.BRANCH_NAME, images)
         }
       }
     }
@@ -58,20 +37,13 @@ node('00-docker') {
 
     // Build images
     stage('build') {
-      images.each { image ->
-        def version = readFile("${image}/APP_VERSION").trim()
-        sh "docker build -t empathetech/${image}:${version} -t empathetech/${image}:latest ${image}/."
-      }
+      buildImages(images, "empathetech")
     }
 
     // Push images (on main branch only)
     if (env.BRANCH_NAME == baseBranch) {
       stage('push') {
-        images.each { image -> 
-          def version = readFile("${image}/APP_VERSION").trim()
-          sh "docker push empathetech/${image}:${version}"
-          sh "docker push empathetech/${image}:latest"
-        }
+        pushImages(images, "empathetech")
       }
     }
   } catch (Exception e) {
