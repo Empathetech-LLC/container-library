@@ -22,10 +22,7 @@ node('00-docker') {
     // Clean up cache on main so we don't push old layers
     if (env.BRANCH_NAME == baseBranch) {
       stage('cleanup') {
-        images.each { image -> 
-          sh "docker image rm -f empathetech/${image}"
-        }
-        sh "docker system prune -f"
+        cleanDocker()
       }
 
       stage('login') {
@@ -37,13 +34,13 @@ node('00-docker') {
 
     // Build images
     stage('build') {
-      buildImages(images, "empathetech")
+      buildImages(images)
     }
 
     // Push images (on main branch only)
     if (env.BRANCH_NAME == baseBranch) {
       stage('push') {
-        pushImages(images, "empathetech")
+        pushImages(images)
       }
     }
   } catch (Exception e) {
