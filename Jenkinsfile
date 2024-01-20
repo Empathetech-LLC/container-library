@@ -22,7 +22,7 @@ node('00-docker') {
     // Clean up cache on main so we don't push old layers
     if (env.BRANCH_NAME == baseBranch) {
       stage('cleanup') {
-        dockerDev.clean()
+        dockerDev.clean(images)
       }
 
       stage('login') {
