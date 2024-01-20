@@ -14,7 +14,7 @@ node('00-docker') {
     if (env.BRANCH_NAME != baseBranch) {
       stage('Validate versioning') {
         withCredentials([gitUsernamePassword(credentialsId: 'git-pat')]) {
-          validateDockerfileVersions(env.CHANGE_ID, baseBranch, env.BRANCH_NAME, images)
+          dockerDev.validateDockerfileVersions(env.CHANGE_ID, baseBranch, env.BRANCH_NAME, images)
         }
       }
     }
@@ -22,7 +22,7 @@ node('00-docker') {
     // Clean up cache on main so we don't push old layers
     if (env.BRANCH_NAME == baseBranch) {
       stage('cleanup') {
-        cleanDocker()
+        dockerDev.clean()
       }
 
       stage('login') {
@@ -34,13 +34,13 @@ node('00-docker') {
 
     // Build images
     stage('build') {
-      buildImages(images)
+      dockerDev.buildImages(images)
     }
 
     // Push images (on main branch only)
     if (env.BRANCH_NAME == baseBranch) {
       stage('push') {
-        pushImages(images)
+        dockerDev.pushImages(images)
       }
     }
   } catch (Exception e) {
