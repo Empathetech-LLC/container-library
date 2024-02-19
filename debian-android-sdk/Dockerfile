@@ -9,7 +9,7 @@ WORKDIR /
 # Platforms versioning: https://developer.android.com/tools/releases/platforms
 # Builds versioning: https://developer.android.com/tools/releases/build-tools
 ENV ANDROID_HOME=/opt/android-sdk-linux \
-  CMD_TOOLS_VERSION=10406996 \
+  CMD_TOOLS_VERSION=11076708 \
   ANDROID_PLATFORM_VERSION=34 \
   ANDROID_BUILD_VERSION=34.0.0
 
