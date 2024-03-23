@@ -9,7 +9,7 @@ WORKDIR /
 # Platforms versioning: https://developer.android.com/tools/releases/platforms
 # Builds versioning: https://developer.android.com/tools/releases/build-tools
 ENV ANDROID_HOME=/opt/android-sdk-linux \
-  CMD_TOOLS_VERSION=10406996 \
+  CMD_TOOLS_VERSION=11076708 \
   ANDROID_PLATFORM_VERSION=34 \
   ANDROID_BUILD_VERSION=34.0.0
 
@@ -48,7 +48,7 @@ RUN yes | sdkmanager --licenses \
 
 # Setup Flutter environment
 ENV FLUTTER_HOME=${HOME}/sdks/flutter \
-  FLUTTER_VERSION=3.16.8
+  FLUTTER_VERSION=3.19.4
 
 ENV FLUTTER_ROOT=$FLUTTER_HOME \
   CHROME_EXECUTABLE=/usr/bin/chromium \
@@ -76,5 +76,6 @@ RUN mkdir tmp
 
 # Disable telemtry and pre-download binaries
 RUN git config --global --add safe.directory /sdks/flutter \
+  && dart --disable-analytics \
   && flutter --disable-analytics \
   && flutter precache

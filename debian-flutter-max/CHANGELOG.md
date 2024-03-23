@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [3.19.4] - 2024-03-23
+### Updated
+- Updated Flutter to 3.19.4
+- Removed Dart analytics
+
 ## [3.16.8] - 2024-01-19
 ### Updated
 - Updated Flutter to 3.16.8

@@ -6,8 +6,8 @@ node('00-docker') {
       checkout scm
     }
 
-    def baseBranch = 'main' // CPP (Copy/Paste Point)
-
+    def baseBranch = 'main'
+    
     // Ordered manually
     def images = ['debian-gh', 'debian-android-sdk', 'debian-flutter-min', 'debian-flutter-max', 'jenkins-agent-docker', 'jenkins-agent-flutter']
 
