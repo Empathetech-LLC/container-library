@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## [34.0.1] - 2024-02-19
+## [34.0.1] - 2024-03-23
 ### Updated
 - Android dev tools version
 
