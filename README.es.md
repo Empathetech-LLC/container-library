@@ -1,19 +1,19 @@
-# container-library
+# biblioteca-contenedor
 [![en](https://img.shields.io/badge/lang-en-blue.svg)](https://github.com/Empathetech-LLC/container_library/blob/main/README.md)
 [![es](https://img.shields.io/badge/lang-es-red.svg)](https://github.com/Empathetech-LLC/container_library/blob/main/README.es.md)
 [![fr](https://img.shields.io/badge/lang-fr-white.svg)](https://github.com/Empathetech-LLC/container_library/blob/main/README.fr.md)
 
-The public section of the Empathetech (Docker) Container Library.
+La sección pública de la biblioteca de contenedores Empathetech (Docker).
 
-# Contributing
+# Contribuyendo
 
-## Time
+## Tiempo
 
-Please reach out to the [community](mailto:community@empathetech.net?subject=Becoming%20a%20contributor) contact about becoming a contributor. There's never a shortage of ideas, only time!
+Ponte en contacto con la [comunidad](mailto:community@empathetech.net?subject=Becoming%20a%20contributor) para colaborar. ¡Nunca faltan ideas, solo tiempo!
 
-## Money
+## Dinero
 
-Many thanks for any and all donations!
+¡Muchas gracias por las donaciones, grandes y pequeñas!
 
 ### Paypal
 
@@ -29,12 +29,12 @@ Many thanks for any and all donations!
 
 ### [Ko-fi](https://ko-fi.com/empathetech)
 
-# License
+# Licencia
 
 [GNU GPLv3](LICENSE)
 
-# Credits
+# Créditos
 
-## Translations
+## Traducciones
 
-Note to translator: please credit yourself :)
+Español: [Sara Herrera](https://www.fiverr.com/saraqua)
