@@ -1,7 +1,7 @@
 # container-library
-[![en](https://img.shields.io/badge/lang-en-blue.svg)](https://github.com/Empathetech-LLC/container_library/blob/main/README.md)
-[![es](https://img.shields.io/badge/lang-es-red.svg)](https://github.com/Empathetech-LLC/container_library/blob/main/README.es.md)
-[![fr](https://img.shields.io/badge/lang-fr-white.svg)](https://github.com/Empathetech-LLC/container_library/blob/main/README.fr.md)
+[![en](https://img.shields.io/badge/lang-en-blue.svg)](https://github.com/Empathetech-LLC/container-library/blob/main/README.md)
+[![es](https://img.shields.io/badge/lang-es-red.svg)](https://github.com/Empathetech-LLC/container-library/blob/main/README.es.md)
+[![fr](https://img.shields.io/badge/lang-fr-white.svg)](https://github.com/Empathetech-LLC/container-library/blob/main/README.fr.md)
 
 La section publique de la bibliothèque de conteneurs Empathetech (Docker).
 
