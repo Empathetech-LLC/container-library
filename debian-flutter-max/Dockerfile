@@ -7,7 +7,7 @@ WORKDIR /
 #
 # SDK versioning: https://github.com/flutter/flutter/releases
 ENV FLUTTER_HOME=${HOME}/sdks/flutter \
-  FLUTTER_VERSION=3.19.4
+  FLUTTER_VERSION=3.24.1
 
 ENV FLUTTER_ROOT=$FLUTTER_HOME \
   CHROME_EXECUTABLE=/usr/bin/chromium \

@@ -3,17 +3,17 @@
 [![es](https://img.shields.io/badge/lang-es-red.svg)](https://github.com/Empathetech-LLC/container_library/blob/main/README.es.md)
 [![fr](https://img.shields.io/badge/lang-fr-white.svg)](https://github.com/Empathetech-LLC/container_library/blob/main/README.fr.md)
 
-The public section of the Empathetech (Docker) Container Library.
+La section publique de la bibliothèque de conteneurs Empathetech (Docker).
 
-# Contributing
+# Contributions
 
-## Time
+## Temps
 
-Please reach out to the [community](mailto:community@empathetech.net?subject=Becoming%20a%20contributor) contact about becoming a contributor. There's never a shortage of ideas, only time!
+N'hésitez pas à contacter le contact [communauté](mailto:community@empathetech.net?subject=Becoming%20a%20contributor) pour devenir contributeur. Les idées ne manquent jamais, seulement le temps !
 
-## Money
+## Financières
 
-Many thanks for any and all donations!
+Un grand merci pour tout votre soutien !
 
 ### Paypal
 
@@ -29,6 +29,12 @@ Many thanks for any and all donations!
 
 ### [Ko-fi](https://ko-fi.com/empathetech)
 
-# License
+# Licence
 
 [GNU GPLv3](LICENSE)
+
+# Crédits
+
+## Traductions
+
+Français | [Alexis Nguyen](https://www.fiverr.com/alexisnguyen2)
